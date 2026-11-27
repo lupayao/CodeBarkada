@@ -5,6 +5,7 @@ use App\Http\Controllers\AdviserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,8 @@ Route::middleware(['auth', 'auth.session'])->group(function () {
             // Everything below needs the welcome setup finished first.
             Route::middleware('profile.done')->group(function () {
                 Route::get('/', [HomeController::class, 'index'])->name('home');
+                Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+                Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
             });
         });
 

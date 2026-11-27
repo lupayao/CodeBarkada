@@ -11,6 +11,8 @@
                 <p class="text-body-secondary mb-0">{{ $tagline }}</p>
             </div>
         </div>
-        <p class="mt-3 mb-0"><a href="{{ route('password.edit') }}">Change my password</a></p>
+        <div class="mt-3">
+            <a class="btn btn-outline-light" href="{{ route('profile.edit') }}">Edit profile</a>
+        </div>
     </div>
 @endsection

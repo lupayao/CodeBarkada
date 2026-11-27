@@ -38,6 +38,18 @@
                                        @if (request()->routeIs('adviser.members.*')) aria-current="page" @endif>Members</a>
                                 </li>
                             </ul>
+                        @else
+                            {{-- The member's menu (Typing, Modules, Leaderboard come later) --}}
+                            <ul class="navbar-nav me-auto gap-1" aria-label="Member menu">
+                                <li class="nav-item">
+                                    <a href="{{ route('home') }}" @class(['nav-link', 'active' => request()->routeIs('home')])
+                                       @if (request()->routeIs('home')) aria-current="page" @endif>Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('profile.edit') }}" @class(['nav-link', 'active' => request()->routeIs('profile.*')])
+                                       @if (request()->routeIs('profile.*')) aria-current="page" @endif>Profile</a>
+                                </li>
+                            </ul>
                         @endif
 
                         {{-- Your name and the Sign out button --}}
