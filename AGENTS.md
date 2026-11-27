@@ -29,7 +29,7 @@
 | `--text` | `#fbf7ea` cream | main text |
 | `--muted` | `#b3c2e8` | hints and secondary text |
 | `--sun` | `#f9c935` sail yellow | main accent, primary buttons, headings highlight |
-| `--sail-red` | `#e0322b` sail red | decoration only (header stripe); too dark for text |
+| `--sail-red` | `#e0322b` sail red | header stripe, danger card border, Delete button (white text on it passes 4.5:1); too dark to use as text on blue |
 | `--coral` | `#ff8a6b` light sail red | readable red text, warnings |
 | `--sky` | `#5ec0f2` sky blue | links, focus rings |
 | `--good` / `--bad` | `#5fd3a5` / `#ff8f8f` | success / error |

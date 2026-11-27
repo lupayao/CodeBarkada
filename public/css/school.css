@@ -66,6 +66,12 @@
   --bs-btn-focus-shadow-rgb:249,201,53;
   font-weight:700;
 }
+.btn-danger{
+  --bs-btn-color:#fff; --bs-btn-bg:var(--sail-red); --bs-btn-border-color:var(--sail-red);
+  --bs-btn-hover-color:#fff; --bs-btn-hover-bg:#c62a22; --bs-btn-hover-border-color:#c62a22;
+  --bs-btn-active-bg:#b8261f; --bs-btn-active-border-color:#b8261f;
+  font-weight:700;
+}
 .btn-outline-light{--bs-btn-color:var(--text); --bs-btn-border-color:var(--line); --bs-btn-hover-bg:var(--panel2); --bs-btn-hover-color:var(--text); --bs-btn-hover-border-color:var(--sky)}
 .card{--bs-card-bg:var(--panel); --bs-card-border-color:var(--line); --bs-card-border-radius:16px; --bs-card-inner-border-radius:15px}
 .table{--bs-table-bg:transparent; --bs-table-color:var(--text); --bs-table-border-color:var(--line); --bs-table-hover-bg:rgba(251,247,234,.05); --bs-table-hover-color:var(--text)}
@@ -115,6 +121,9 @@ h1{font-weight:800}
 .badge.tone-coral{color:var(--coral); background:rgba(255,138,107,.12); border:1px solid rgba(255,138,107,.5)}
 .badge.tone-sun{color:var(--ink); background:var(--sun)}
 .badge.tone-good{color:var(--good); background:rgba(95,211,165,.12); border:1px solid rgba(95,211,165,.5)}
+
+/* Manage member page: the delete card gets a sail-red border */
+.danger-zone{--bs-card-border-color:var(--sail-red)}
 
 /* Welcome page: track cards (Bootstrap .btn-check radios) */
 .track-card{display:block; height:100%; text-align:left; background:var(--ink); border:2px solid var(--line); border-radius:12px; padding:14px; cursor:pointer}

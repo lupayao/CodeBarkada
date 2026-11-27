@@ -42,4 +42,48 @@ class MemberController extends Controller
 
         return redirect()->route('adviser.members.index')->with('status', $summary);
     }
+
+    /** The Manage page for one member. */
+    public function show(User $member, CodeBarkadaService $codeBarkada): View
+    {
+        abort_unless($codeBarkada->isManageable($member), 404);
+
+        return view('adviser.member', [
+            'member' => $member,
+            'status' => $codeBarkada->memberStatus($member),
+            'tracks' => $codeBarkada->tracks(),
+        ]);
+    }
+
+    /** Give the member a new default password. */
+    public function resetPassword(Request $request, User $member, CodeBarkadaService $codeBarkada): RedirectResponse
+    {
+        abort_unless($codeBarkada->isManageable($member), 404);
+
+        $data = $request->validate([
+            'default_password' => $codeBarkada->defaultPasswordRules(),
+        ]);
+
+        $codeBarkada->resetMemberPassword($member, $data['default_password']);
+
+        return redirect()->route('adviser.members.index')
+            ->with('status', "Password reset for {$member->name}. They must change it when they next sign in.");
+    }
+
+    /** Delete the member (only when the confirm box is ticked). */
+    public function destroy(Request $request, User $member, CodeBarkadaService $codeBarkada): RedirectResponse
+    {
+        abort_unless($codeBarkada->isManageable($member), 404);
+
+        $request->validate([
+            'confirm' => ['accepted'],
+        ], [
+            'confirm.accepted' => 'Tick the box to confirm.',
+        ]);
+
+        $codeBarkada->deleteMember($member);
+
+        return redirect()->route('adviser.members.index')
+            ->with('status', "{$member->name} was deleted.");
+    }
 }

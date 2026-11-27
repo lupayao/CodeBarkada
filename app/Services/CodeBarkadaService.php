@@ -205,6 +205,45 @@ class CodeBarkadaService
     }
 
     /**
+     * The adviser may manage (reset, delete) club members only, never the adviser account.
+     */
+    public function isManageable(User $user): bool
+    {
+        return $user->isMember();
+    }
+
+    /**
+     * Give a member a new default password (e.g. they forgot theirs).
+     * They must change it at their next sign-in, and every device they are
+     * signed in on is signed out right away.
+     */
+    public function resetMemberPassword(User $member, string $newDefault): void
+    {
+        DB::transaction(function () use ($member, $newDefault) {
+            $member->forceFill([
+                'password' => $newDefault,
+                'must_change_password' => true,
+                'remember_token' => null,   // "Keep me signed in" stops working
+            ])->save();
+
+            // Remove their saved sign-in sessions, so open tabs are signed out too.
+            DB::table('sessions')->where('user_id', $member->id)->delete();
+        });
+    }
+
+    /**
+     * Delete a member and their sign-in sessions.
+     * (Later, their scores will be deleted with them by the database.)
+     */
+    public function deleteMember(User $member): void
+    {
+        DB::transaction(function () use ($member) {
+            DB::table('sessions')->where('user_id', $member->id)->delete();
+            $member->delete();
+        });
+    }
+
+    /**
      * Where a member is in the sign-up process, for the adviser's table.
      * "tone" picks the pill color in the CSS.
      */

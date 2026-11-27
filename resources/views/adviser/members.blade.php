@@ -60,6 +60,7 @@
                             <th scope="col">Grade</th>
                             <th scope="col">Track</th>
                             <th scope="col">Status</th>
+                            <th scope="col"><span class="visually-hidden">Actions</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -77,6 +78,10 @@
                                 <td>{{ $tracks[$member->track]['name'] ?? '–' }}</td>
                                 <td>
                                     <span class="badge rounded-pill tone-{{ $statuses[$member->id]['tone'] }}">{{ $statuses[$member->id]['label'] }}</span>
+                                </td>
+                                <td class="text-end">
+                                    <a class="btn btn-outline-light btn-sm" href="{{ route('adviser.members.show', $member) }}"
+                                       aria-label="Manage {{ $member->name }}">Manage</a>
                                 </td>
                             </tr>
                         @endforeach
