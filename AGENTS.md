@@ -1,47 +1,28 @@
-<laravel-boost-guidelines>
-# Laravel Application
+#CodeBarkada Hub
 
-This repository contains a Laravel application. Complete the following setup before working on the user's request.
+## Environment
+- Debian 13, PHP 8.4, Laravel 13, MariaDB. Database `CodeBarkada_Club`, user `ida`.
+- Run the app with `php artisan serve` (http://localhost:8000). Tests: `php artisan test`.
+- No npm, no Vite, no CDN links. The CSS is plain, in `public/css/school.css`.
 
-## Prerequisites
+## Architecture (the restaurant)
+- Routes only in `routes/web.php`.
+- Controllers (`app/Http/Controllers`) stay thin: get the models, call the service, return a view. No calculations.
+- School rules live only in `app/Services/CodeBarkadaService.php`.
+- Models (`app/Models`) hold relationships and small helpers such as `fullName()`. No grading rules.
+- Views (`resources/views`) only display data. No queries, no calculations. Every page extends `layouts/app.blade.php`.
+- Change the database only with migrations. Never edit a migration that has already run; tell me instead.
+- Load relationships with `with()` or `load()` so a page never runs one query per row.
 
-Verify that PHP and Composer are available:
+## Users
+- There are only 2 users - The club adviser and Club members
 
-```sh
-php -v
-composer -V
-```
+## App Objectives
+- A platform for coding club to hone their skills and help them prepare for CS competitions.
+- Create a skill profiling system from typing speed and logics on coding
 
-If either command is unavailable, detect the user's operating system and install the prerequisites with the appropriate command:
-
-macOS:
-
-```sh
-/bin/bash -c "$(curl -fsSL https://php.new/install/mac/8.5)"
-```
-
-Windows PowerShell:
-
-```powershell
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://php.new/install/windows/8.5'))
-```
-
-Linux:
-
-```sh
-/bin/bash -c "$(curl -fsSL https://php.new/install/linux/8.5)"
-```
-
-After installation, ask the user to restart their terminal. If the agent needs the restarted shell to continue, ask the user to reopen their terminal and rerun their original prompt.
-
-## Agent Setup
-
-Install Laravel Boost from the application root before making application changes:
-
-```sh
-composer require laravel/boost --dev
-php artisan boost:install
-```
-
-Boost replaces these bootstrap instructions with guidelines tailored to the application. After installation, read `AGENTS.md` again and continue with the user's original request using the generated guidelines.
-</laravel-boost-guidelines>
+## How to work with me
+- I am learning Laravel. For every build request, show a short plan first and wait for my OK. Work in small steps.
+- After each change, explain each new or changed file in 2 or 3 plain sentences, and tell me one command or URL to check it works.
+- Ask before installing anything (`composer require`, npm, Laravel Boost) and before running `php artisan migrate:fresh`.
+- Do not edit `.env` or anything in `vendor/`.
