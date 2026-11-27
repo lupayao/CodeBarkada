@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Adviser\MemberController;
 use App\Http\Controllers\AdviserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 // Pages for visitors who are NOT signed in.
@@ -23,9 +25,22 @@ Route::middleware(['auth', 'auth.session'])->group(function () {
     // Everything below needs the default password changed first.
     Route::middleware('password.changed')->group(function () {
         // Member pages
-        Route::get('/', [HomeController::class, 'index'])->middleware('role:member')->name('home');
+        Route::middleware('role:member')->group(function () {
+            // First sign-in setup: codename, track, avatar.
+            Route::get('/welcome', [WelcomeController::class, 'edit'])->name('welcome.edit');
+            Route::put('/welcome', [WelcomeController::class, 'update'])->name('welcome.update');
+
+            // Everything below needs the welcome setup finished first.
+            Route::middleware('profile.done')->group(function () {
+                Route::get('/', [HomeController::class, 'index'])->name('home');
+            });
+        });
 
         // Adviser pages
-        Route::get('/adviser', [AdviserController::class, 'index'])->middleware('role:adviser')->name('adviser.home');
+        Route::middleware('role:adviser')->prefix('adviser')->name('adviser.')->group(function () {
+            Route::get('/', [AdviserController::class, 'index'])->name('home');
+            Route::get('/members', [MemberController::class, 'index'])->name('members.index');
+            Route::post('/members', [MemberController::class, 'store'])->name('members.store');
+        });
     });
 });

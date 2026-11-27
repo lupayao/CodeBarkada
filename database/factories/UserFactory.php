@@ -30,10 +30,27 @@ class UserFactory extends Factory
             'email' => fake()->unique()->userName().'@crc.pshs.edu.ph',
             'role' => 'member',
             'must_change_password' => false,
+            // A finished welcome setup, so tests can open member pages right away.
+            'codename' => fake()->unique()->bothify('Coder####'),
+            'track' => 'py',
+            'avatar' => 'bot-200',
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
+    }
+
+    /**
+     * A member who was just added: default password, no codename/track/avatar yet.
+     */
+    public function newMember(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'must_change_password' => true,
+            'codename' => null,
+            'track' => null,
+            'avatar' => null,
+        ]);
     }
 
     /**

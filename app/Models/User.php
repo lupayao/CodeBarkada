@@ -52,6 +52,17 @@ class User extends Authenticatable
         return $this->role === self::ROLE_MEMBER;
     }
 
+    /**
+     * The coder-bot color saved in "avatar" (e.g. "bot-200" gives 200).
+     * Blue (200) when nothing has been picked yet.
+     */
+    public function avatarColor(): int
+    {
+        return str_starts_with((string) $this->avatar, 'bot-')
+            ? (int) substr($this->avatar, 4)
+            : 200;
+    }
+
     /** The name to show on pages: the codename if chosen, otherwise the real name. */
     public function displayName(): string
     {
