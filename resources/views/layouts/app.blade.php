@@ -31,7 +31,7 @@
                             <ul class="navbar-nav me-auto gap-1" aria-label="Adviser menu">
                                 <li class="nav-item">
                                     <a href="{{ route('adviser.home') }}" @class(['nav-link', 'active' => request()->routeIs('adviser.home')])
-                                       @if (request()->routeIs('adviser.home')) aria-current="page" @endif>Home</a>
+                                       @if (request()->routeIs('adviser.home')) aria-current="page" @endif>Dashboard</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('adviser.members.index') }}" @class(['nav-link', 'active' => request()->routeIs('adviser.members.*')])

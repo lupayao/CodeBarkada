@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -202,6 +203,61 @@ class CodeBarkadaService
         }
 
         return implode(' ', $summary);
+    }
+
+    /**
+     * Everything the adviser dashboard shows, worked out from the list of members.
+     * The page only displays these numbers; all counting happens here.
+     *
+     * @param  Collection<int, User>  $members
+     */
+    public function dashboard(Collection $members): array
+    {
+        $total = $members->count();
+
+        // Percent of a whole, rounded to a whole number (0 when there is nothing to count).
+        $percent = fn (int $count, int $of) => $of > 0 ? (int) round($count / $of * 100) : 0;
+
+        // 1. Sign-up status, in a fixed order: Active, Needs setup, Needs password change.
+        $statusOf = $members->mapWithKeys(fn (User $m) => [$m->id => $this->memberStatus($m)]);
+        $statuses = [];
+        foreach (['good' => 'Active', 'sun' => 'Needs setup', 'coral' => 'Needs password change'] as $tone => $label) {
+            $count = $statusOf->where('tone', $tone)->count();
+            $statuses[] = ['label' => $label, 'tone' => $tone, 'count' => $count, 'percent' => $percent($count, $total)];
+        }
+
+        // 2. Tracks: only members who finished setup have picked one.
+        $withTrack = $members->whereNotNull('track');
+        $tracks = [];
+        foreach ($this->tracks() as $key => $track) {
+            $count = $withTrack->where('track', $key)->count();
+            $tracks[] = ['label' => $track['name'], 'count' => $count, 'percent' => $percent($count, $withTrack->count())];
+        }
+
+        // 3. Grades 7 to 10, then members without a grade.
+        $grades = [];
+        foreach (['7', '8', '9', '10'] as $grade) {
+            $count = $members->where('grade', $grade)->count();
+            $grades[] = ['label' => "Grade {$grade}", 'count' => $count, 'percent' => $percent($count, $total)];
+        }
+        $noGrade = $members->whereNull('grade')->count();
+        $grades[] = ['label' => 'No grade', 'count' => $noGrade, 'percent' => $percent($noGrade, $total)];
+
+        // 4. Members who still need to change their password or finish setup, oldest first.
+        $unfinished = $members
+            ->filter(fn (User $m) => $statusOf[$m->id]['tone'] !== 'good')
+            ->sortBy([['created_at', 'asc'], ['id', 'asc']]);
+
+        return [
+            'total' => $total,
+            'statuses' => $statuses,
+            'tracks' => $tracks,
+            'tracksTotal' => $withTrack->count(),
+            'grades' => $grades,
+            'needsAttention' => $unfinished->take(8)->map(fn (User $m) => ['member' => $m, 'status' => $statusOf[$m->id]])->values(),
+            'needsAttentionCount' => $unfinished->count(),
+            'recent' => $members->sortBy([['created_at', 'desc'], ['id', 'desc']])->take(5)->values(),
+        ];
     }
 
     /**

@@ -125,6 +125,28 @@ h1{font-weight:800}
 /* Manage member page: the delete card gets a sail-red border */
 .danger-zone{--bs-card-border-color:var(--sail-red)}
 
+/* Adviser dashboard.
+   Status colors (good / sun / coral) always come with their name and number, never color alone.
+   Bars: thin, 4px rounded ends, 2px gap between the parts of the status bar. */
+.stat-tile{border-top:4px solid var(--tile-color,var(--line)); gap:2px}
+.stat-tile.tone-sky{--tile-color:var(--sky)}
+.stat-tile.tone-good{--tile-color:var(--good)}
+.stat-tile.tone-sun{--tile-color:var(--sun)}
+.stat-tile.tone-coral{--tile-color:var(--coral)}
+.stat-label{font-size:13px; font-weight:700; color:var(--muted)}
+.stat-value{font-family:var(--f-display); font-size:clamp(1.8rem,1.4rem + 1.2vw,2.6rem); font-weight:800; line-height:1.1; font-variant-numeric:tabular-nums}
+.status-bar{display:flex; gap:2px; height:14px; border-radius:4px; overflow:hidden; background:var(--panel2)}
+.status-bar-part{min-width:4px}
+.status-bar-part.tone-good,.legend-dot.tone-good{background:var(--good)}
+.status-bar-part.tone-sun,.legend-dot.tone-sun{background:var(--sun)}
+.status-bar-part.tone-coral,.legend-dot.tone-coral{background:var(--coral)}
+.legend-dot{width:12px; height:12px; border-radius:3px; flex:none}
+.legend-pct{width:3.2em; text-align:right; font-variant-numeric:tabular-nums}
+.stat-bar-track{height:8px; border-radius:4px; background:var(--panel2); overflow:hidden}
+.stat-bar-fill{height:100%; border-radius:4px; background:var(--sky)}
+.card li.border-bottom:last-child{border-bottom:0!important}
+.min-w-0{min-width:0}
+
 /* Welcome page: track cards (Bootstrap .btn-check radios) */
 .track-card{display:block; height:100%; text-align:left; background:var(--ink); border:2px solid var(--line); border-radius:12px; padding:14px; cursor:pointer}
 .track-card b{display:block; font-family:var(--f-display); font-size:18px}
