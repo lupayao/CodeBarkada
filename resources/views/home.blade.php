@@ -4,7 +4,8 @@
 
 @section('content')
     <div class="card">
-        <h1>Welcome to CodeBarkada Hub</h1>
+        <h1>Welcome, {{ $member->displayName() }}</h1>
         <p class="muted">{{ $tagline }}</p>
+        <p><a href="{{ route('password.edit') }}">Change my password</a></p>
     </div>
 @endsection

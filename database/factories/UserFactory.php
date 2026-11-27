@@ -26,7 +26,10 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            // School rule: every account uses a @crc.pshs.edu.ph email.
+            'email' => fake()->unique()->userName().'@crc.pshs.edu.ph',
+            'role' => 'member',
+            'must_change_password' => false,
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),

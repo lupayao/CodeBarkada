@@ -11,11 +11,27 @@
     <header class="top">
         <div class="top-in">
             <a class="brand" href="{{ route('home') }}"><span class="glyph">&lt;/&gt;</span>CodeBarkada</a>
+
+            {{-- Only signed-in users see their name and the Sign out button. --}}
+            @auth
+                <div class="row top-me">
+                    <span class="muted small">{{ auth()->user()->displayName() }} · {{ ucfirst(auth()->user()->role) }}</span>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button class="btn" type="submit">Sign out</button>
+                    </form>
+                </div>
+            @endauth
         </div>
     </header>
 
     <main>
         <section class="view">
+            {{-- A one-time message, e.g. "Password changed." --}}
+            @if (session('status'))
+                <p class="banner" role="status">{{ session('status') }}</p>
+            @endif
+
             {{-- Each page puts its content here with @section('content') --}}
             @yield('content')
         </section>

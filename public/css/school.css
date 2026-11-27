@@ -67,7 +67,7 @@ body.loading::after{content:attr(data-msg);padding:16px;text-align:center;positi
 .seg button{border:0;background:transparent;padding:7px 12px;border-radius:9px;font-weight:700;color:var(--muted);cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--panel2);color:var(--text);box-shadow:inset 0 0 0 1px var(--sky)}
 .f{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:14px}
-input[type=text],input[type=password],select,textarea{background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%}
+input[type=text],input[type=email],input[type=password],select,textarea{background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%}
 textarea{resize:vertical;min-height:90px}
 .stat{display:flex;flex-direction:column;gap:2px}
 .stat .v{font-family:var(--f-display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums}
@@ -193,3 +193,8 @@ td img{width:28px;height:28px;border-radius:50%;vertical-align:middle;margin-rig
 .mlist img{width:34px;height:34px;border-radius:50%}
 .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--sun);color:var(--ink);padding:10px 16px;border-radius:10px;font-weight:700;z-index:60;box-shadow:0 8px 30px rgba(0,0,0,.4);max-width:90vw}
 footer{max-width:1180px;margin:0 auto;padding:0 16px 32px;color:var(--muted);font-size:13px}
+
+/* Laravel version additions */
+.top-me{margin-left:auto}
+.top-me form{margin:0}
+.narrow{max-width:480px;width:100%;margin:0 auto}
